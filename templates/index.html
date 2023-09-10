@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VirtualBox VM Manager</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>VirtualBox VM Manager</h1>
+
+    <div id="inactive-vms" class="mt-5">
+        <h3>Inactive VMs</h3>
+        <ul class="list-group" id="inactive-list">
+        </ul>
+    </div>
+
+    <div id="active-vms" class="mt-5">
+        <h3>Active VMs</h3>
+        <ul class="list-group" id="active-list">
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    function refreshList() {
+        $.getJSON("/list_inactive_vms", function(data) {
+            $("#inactive-list").empty();
+            data.forEach(function(vm) {
+                $("#inactive-list").append('<li class="list-group-item">' + vm + ' <button onclick="startVM(\'' + vm + '\')">Start</button></li>');
+            });
+        });
+
+        $.getJSON("/list_active_vms", function(data) {
+            $("#active-list").empty();
+            data.forEach(function(vm) {
+                $("#active-list").append('<li class="list-group-item">' + vm + ' <button onclick="stopVM(\'' + vm + '\')">Stop</button></li>');
+            });
+        });
+    }
+
+    function startVM(name) {
+        $.post("/start_vm", { vm_name: name }, function(data) {
+            if(data.status === 'success') {
+                refreshList();
+            }
+        });
+    }
+
+    function stopVM(name) {
+        $.post("/stop_vm", { vm_name: name }, function(data) {
+            if(data.status === 'success') {
+                refreshList();
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        refreshList();
+    });
+</script>
+</body>
+</html>
