@@ -1,9 +1,40 @@
 import re
 import subprocess
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, session, redirect, url_for, json
 
 app = Flask(__name__)
+
+app.secret_key = 'supersecretkey'
+
+
+@app.before_request
+def require_login():
+    allowed_routes = ['login']
+    if 'username' not in session and request.endpoint not in allowed_routes:
+        return redirect(url_for('login'))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        with open('credentials.json', 'r') as f:
+            credentials = json.load(f)
+
+        if username == credentials['username'] and password == credentials['password']:
+            session['username'] = username
+            return redirect(url_for('index'))
+
+    return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('login'))
 
 
 @app.route('/')

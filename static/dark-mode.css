@@ -1,0 +1,25 @@
+    body {
+        padding: 20px;
+        background-color: #121212;  /* Arrière-plan foncé */
+        color: #ffffff;  /* Texte clair */
+    }
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        background-color: #1e1e1e;  /* Arrière-plan plus foncé pour les éléments de liste */
+        color: #ffffff;  /* Texte clair pour les éléments de liste */
+    }
+    button {
+        margin-left: 10px;
+    }
+    h1, h3 {
+        color: #ffffff;  /* Titres clairs */
+    }
+    /* Couleurs pour les boutons */
+    .btn-success {
+        background-color: #388e3c;
+    }
+    .btn-danger {
+        background-color: #d32f2f;
+    }
+
