@@ -16,3 +16,34 @@ Ce projet est une interface web pour gérer les machines VirtualBox sur un serve
 
 * Python 3.x
 * Flask
+
+## Installation
+
+```
+rvv@rvv-desktop:~$ git clone https://github.com/venantvr/Python.VirtualBox.Web.git
+rvv@rvv-desktop:~$ cd Python.VirtualBox.Web/
+rvv@rvv-desktop:~$ pip install -r requirements.txt
+rvv@rvv-desktop:~$ sudo nano /etc/systemd/system/virtualbox-manager-web.service
+```
+
+```
+[Unit]
+Description=VirtualBox Manager Web Interface
+After=network.target
+
+[Service]
+User=rvv
+WorkingDirectory=/home/rvv/Python.VirtualBox.Web
+Environment="FLASK_APP=app.py"
+Environment="FLASK_ENV=development"
+ExecStart=/home/rvv/.local/bin/flask run --host=0.0.0.0 --port=5000
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```
+rvv@rvv-desktop:~$ sudo systemctl enable virtualbox-manager-web
+rvv@rvv-desktop:~$ sudo systemctl daemon-reload
+rvv@rvv-desktop:~$ sudo systemctl start virtualbox-manager-web
+```
