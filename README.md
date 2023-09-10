@@ -19,6 +19,7 @@ Ce projet est une interface web pour gérer les machines VirtualBox sur un serve
 
 ## Installation
 
+* Installation en service...
 ```
 rvv@rvv-desktop:~$ git clone https://github.com/venantvr/Python.VirtualBox.Web.git
 rvv@rvv-desktop:~$ cd Python.VirtualBox.Web/
@@ -42,6 +43,15 @@ ExecStart=/home/rvv/.local/bin/flask run --host=0.0.0.0 --port=5000
 WantedBy=multi-user.target
 ```
 
+* Ne pas oublier de créer fichier credentials.json à la racine...
+```
+{
+  "username": "admin",
+  "password": "secret"
+}
+```
+
+* Démarrage du service...
 ```
 rvv@rvv-desktop:~$ sudo systemctl enable virtualbox-manager-web
 rvv@rvv-desktop:~$ sudo systemctl daemon-reload
